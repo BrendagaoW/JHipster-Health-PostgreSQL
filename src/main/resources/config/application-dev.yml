@@ -24,10 +24,10 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/21points
+        url: jdbc:postgresql://localhost/health
         name:
-        username: 21points
-        password:
+        username: health
+        password: health
     jpa:
         database-platform: org.jhipster.health.domain.util.FixedPostgreSQL82Dialect
         database: POSTGRESQL
