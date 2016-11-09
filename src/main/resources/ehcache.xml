@@ -37,5 +37,53 @@
            timeToLiveSeconds="3600">
     </cache>
     
+    <cache name="org.jhipster.health.domain.Region"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Country"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Location"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Department"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Department.employees"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Task"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Task.jobs"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Employee"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Employee.jobs"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Job"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Job.tasks"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.JobHistory"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>
