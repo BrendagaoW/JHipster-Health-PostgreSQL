@@ -37,5 +37,33 @@
            timeToLiveSeconds="3600">
     </cache>
     
+    <cache name="org.jhipster.health.domain.Metric"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Metric.goals"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Metric.entries"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Goal"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Goal.metrics"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Entry"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="org.jhipster.health.domain.Entry.metrics"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

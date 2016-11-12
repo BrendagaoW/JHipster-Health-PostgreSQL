@@ -1,0 +1,68 @@
+<div>
+    <h2 data-translate="21PointsApp.goal.home.title">Goals</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="goal.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="21PointsApp.goal.home.createLabel">
+                        Create new Goal
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="21PointsApp.goal.name">Name</span></th>
+                    <th><span data-translate="21PointsApp.goal.description">Description</span></th>
+                    <th><span data-translate="21PointsApp.goal.user">User</span></th>
+                    <th><span data-translate="21PointsApp.goal.metric">Metric</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="goal in vm.goals track by goal.id">
+                    <td><a ui-sref="goal-detail({id:goal.id})">{{goal.id}}</a></td>
+                    <td>{{goal.name}}</td>
+                    <td>{{goal.description}}</td>
+                    <td>
+                        {{goal.user.id}}
+                    </td>
+                    <td>
+                        <span ng-repeat="metric in goal.metrics">
+                            <a class="form-control-static" ui-sref="metric-detail({id: metric.id})">{{metric.id}}</a>{{$last ? '' : ', '}}
+                        </span>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="goal-detail({id:goal.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="goal.edit({id:goal.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="goal.delete({id:goal.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

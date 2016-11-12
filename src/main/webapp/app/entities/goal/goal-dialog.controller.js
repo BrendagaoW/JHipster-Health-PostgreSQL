@@ -1,0 +1,48 @@
+(function() {
+    'use strict';
+
+    angular
+        .module('21PointsApp')
+        .controller('GoalDialogController', GoalDialogController);
+
+    GoalDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Goal', 'User', 'Metric'];
+
+    function GoalDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Goal, User, Metric) {
+        var vm = this;
+
+        vm.goal = entity;
+        vm.clear = clear;
+        vm.save = save;
+        vm.users = User.query();
+        vm.metrics = Metric.query();
+
+        $timeout(function (){
+            angular.element('.form-group:eq(1)>input').focus();
+        });
+
+        function clear () {
+            $uibModalInstance.dismiss('cancel');
+        }
+
+        function save () {
+            vm.isSaving = true;
+            if (vm.goal.id !== null) {
+                Goal.update(vm.goal, onSaveSuccess, onSaveError);
+            } else {
+                Goal.save(vm.goal, onSaveSuccess, onSaveError);
+            }
+        }
+
+        function onSaveSuccess (result) {
+            $scope.$emit('21PointsApp:goalUpdate', result);
+            $uibModalInstance.close(result);
+            vm.isSaving = false;
+        }
+
+        function onSaveError () {
+            vm.isSaving = false;
+        }
+
+
+    }
+})();

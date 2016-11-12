@@ -1,0 +1,70 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myEntryLabel" data-translate="21PointsApp.entry.home.createOrEditLabel">Create or edit a Entry</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.entry.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.entry.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="21PointsApp.entry.date" for="field_date">Date</label>
+                <div class="input-group">
+                    <input id="field_date" type="text" class="form-control" name="date" uib-datepicker-popup="{{dateformat}}" ng-model="vm.entry.date" is-open="vm.datePickerOpenStatus.date"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('date')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="21PointsApp.entry.exercise" for="field_exercise">Exercise</label>
+            <input type="number" class="form-control" name="exercise" id="field_exercise"
+                    ng-model="vm.entry.exercise"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="21PointsApp.entry.meals" for="field_meals">Meals</label>
+            <input type="number" class="form-control" name="meals" id="field_meals"
+                    ng-model="vm.entry.meals"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="21PointsApp.entry.alcohol" for="field_alcohol">Alcohol</label>
+            <input type="number" class="form-control" name="alcohol" id="field_alcohol"
+                    ng-model="vm.entry.alcohol"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="21PointsApp.entry.notes" for="field_notes">Notes</label>
+            <input type="text" class="form-control" name="notes" id="field_notes"
+                    ng-model="vm.entry.notes"
+                     />
+        </div>
+
+        <div class="form-group">
+            <label data-translate="21PointsApp.entry.goal" for="field_goal">Goal</label>
+            <select class="form-control" id="field_goal" name="goal" ng-model="vm.entry.goal" ng-options="goal as goal.id for goal in vm.goals track by goal.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="21PointsApp.entry.metric" for="field_metric">Metric</label>
+            <select class="form-control" id="field_metric" multiple name="metric" ng-model="vm.entry.metrics" ng-options="metric as metric.id for metric in vm.metrics track by metric.id"></select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,49 @@
+
+<div>
+    <h2><span data-translate="21PointsApp.entry.detail.title">Entry</span> {{vm.entry.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="21PointsApp.entry.date">Date</span></dt>
+        <dd>
+            <span>{{vm.entry.date | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.exercise">Exercise</span></dt>
+        <dd>
+            <span>{{vm.entry.exercise}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.meals">Meals</span></dt>
+        <dd>
+            <span>{{vm.entry.meals}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.alcohol">Alcohol</span></dt>
+        <dd>
+            <span>{{vm.entry.alcohol}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.notes">Notes</span></dt>
+        <dd>
+            <span>{{vm.entry.notes}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.goal">Goal</span></dt>
+        <dd>
+            <a ui-sref="goal-detail({id:vm.entry.goal.id})">{{vm.entry.goal.id}}</a>
+        </dd>
+        <dt><span data-translate="21PointsApp.entry.metric">Metric</span></dt>
+        <dd>
+            <span ng-repeat="metric in vm.entry.metrics">
+                <a ui-sref="metric-detail({id: metric.id})">{{metric.id}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="entry-detail.edit({id:vm.entry.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>
