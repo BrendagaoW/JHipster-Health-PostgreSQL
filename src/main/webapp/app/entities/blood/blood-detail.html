@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="21PointsApp.blood.detail.title">Blood</span> {{vm.blood.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="21PointsApp.blood.date">Date</span></dt>
+        <dd>
+            <span>{{vm.blood.date | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.blood.systolic">Systolic</span></dt>
+        <dd>
+            <span>{{vm.blood.systolic}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.blood.diastolic">Diastolic</span></dt>
+        <dd>
+            <span>{{vm.blood.diastolic}}</span>
+        </dd>
+        <dt><span data-translate="21PointsApp.blood.user">User</span></dt>
+        <dd>
+            {{vm.blood.user.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="blood-detail.edit({id:vm.blood.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

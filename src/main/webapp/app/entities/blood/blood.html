@@ -1,0 +1,64 @@
+<div>
+    <h2 data-translate="21PointsApp.blood.home.title">Blood</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="blood.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="21PointsApp.blood.home.createLabel">
+                        Create new Blood
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="date"><span data-translate="21PointsApp.blood.date">Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="systolic"><span data-translate="21PointsApp.blood.systolic">Systolic</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="diastolic"><span data-translate="21PointsApp.blood.diastolic">Diastolic</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="user.id"><span data-translate="21PointsApp.blood.user">User</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="blood in vm.blood track by blood.id">
+                    <td><a ui-sref="blood-detail({id:blood.id})">{{blood.id}}</a></td>
+                    <td>{{blood.date | date:'medium'}}</td>
+                    <td>{{blood.systolic}}</td>
+                    <td>{{blood.diastolic}}</td>
+                    <td>
+                        {{blood.user.id}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="blood-detail({id:blood.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="blood.edit({id:blood.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="blood.delete({id:blood.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
