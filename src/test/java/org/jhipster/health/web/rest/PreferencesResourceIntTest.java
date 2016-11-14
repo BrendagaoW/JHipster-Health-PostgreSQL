@@ -105,8 +105,8 @@ public class PreferencesResourceIntTest {
         List<Preferences> preferences = preferencesRepository.findAll();
         assertThat(preferences).hasSize(databaseSizeBeforeCreate + 1);
         Preferences testPreferences = preferences.get(preferences.size() - 1);
-        assertThat(testPreferences.getWeekly_goal()).isEqualTo(DEFAULT_WEEKLY_GOAL);
-        assertThat(testPreferences.getWeight_units()).isEqualTo(DEFAULT_WEIGHT_UNITS);
+        assertThat(testPreferences.getWeeklyGoal()).isEqualTo(DEFAULT_WEEKLY_GOAL);
+        assertThat(testPreferences.getWeightUnits()).isEqualTo(DEFAULT_WEIGHT_UNITS);
     }
 
     @Test
@@ -114,7 +114,7 @@ public class PreferencesResourceIntTest {
     public void checkWeekly_goalIsRequired() throws Exception {
         int databaseSizeBeforeTest = preferencesRepository.findAll().size();
         // set the field null
-        preferences.setWeekly_goal(null);
+        preferences.setWeeklyGoal(null);
 
         // Create the Preferences, which fails.
 
@@ -132,7 +132,7 @@ public class PreferencesResourceIntTest {
     public void checkWeight_unitsIsRequired() throws Exception {
         int databaseSizeBeforeTest = preferencesRepository.findAll().size();
         // set the field null
-        preferences.setWeight_units(null);
+        preferences.setWeightUnits(null);
 
         // Create the Preferences, which fails.
 
@@ -205,8 +205,8 @@ public class PreferencesResourceIntTest {
         List<Preferences> preferences = preferencesRepository.findAll();
         assertThat(preferences).hasSize(databaseSizeBeforeUpdate);
         Preferences testPreferences = preferences.get(preferences.size() - 1);
-        assertThat(testPreferences.getWeekly_goal()).isEqualTo(UPDATED_WEEKLY_GOAL);
-        assertThat(testPreferences.getWeight_units()).isEqualTo(UPDATED_WEIGHT_UNITS);
+        assertThat(testPreferences.getWeeklyGoal()).isEqualTo(UPDATED_WEEKLY_GOAL);
+        assertThat(testPreferences.getWeightUnits()).isEqualTo(UPDATED_WEIGHT_UNITS);
     }
 
     @Test
