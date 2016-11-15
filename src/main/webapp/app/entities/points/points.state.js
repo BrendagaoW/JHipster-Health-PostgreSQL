@@ -13,7 +13,7 @@
             parent: 'entity',
             url: '/points',
             data: {
-                authorities: ['ROLE_USER'],
+                authorities: ['ROLE_USER', 'ROLE_ADMIN'],
                 pageTitle: '21PointsApp.points.home.title'
             },
             views: {
@@ -92,7 +92,7 @@
             parent: 'points',
             url: '/new',
             data: {
-                authorities: ['ROLE_USER']
+                authorities: ['ROLE_USER', 'ROLE_ADMIN']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({

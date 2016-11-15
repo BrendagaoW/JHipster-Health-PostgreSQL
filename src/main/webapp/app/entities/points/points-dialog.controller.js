@@ -5,9 +5,9 @@
         .module('21PointsApp')
         .controller('PointsDialogController', PointsDialogController);
 
-    PointsDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Points', 'User'];
+    PointsDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Points', 'User', 'Principal'];
 
-    function PointsDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Points, User) {
+    function PointsDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Points, User, Principal) {
         var vm = this;
 
         vm.points = entity;
@@ -48,6 +48,10 @@
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
+        }
+
+        function isAdmin() {
+            return Principal.hasAuthority('ROLE_ADMIN');
         }
     }
 })();
