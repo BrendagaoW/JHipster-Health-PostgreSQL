@@ -96,8 +96,14 @@ public class PointsResource {
     @Timed
     public ResponseEntity<List<Points>> getAllPoints(Pageable pageable)
         throws URISyntaxException {
-        log.debug("REST request to get a page of Points");
-        Page<Points> page = pointsRepository.findAll(pageable);
+        Page<Points> page;
+        if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)){
+            page = pointsRepository.findAll(pageable);
+            log.debug("REST request to get a page of Points for user with admin role");
+        } else {
+            page = pointsRepository.findByUserIsCurrentUser(pageable);
+            log.debug("REST request to get a page of Points for user non-admin");
+        }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/points");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
