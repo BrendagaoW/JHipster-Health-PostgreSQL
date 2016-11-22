@@ -3,6 +3,7 @@ package org.jhipster.health.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.jhipster.health.domain.Points;
 
+import org.jhipster.health.domain.PointsPerWeek;
 import org.jhipster.health.repository.PointsRepository;
 import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.security.AuthoritiesConstants;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -106,6 +108,26 @@ public class PointsResource {
         }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/points");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/points-this-week")
+    @Timed
+    public ResponseEntity<PointsPerWeek> getPointsThisWeek()
+        throws URISyntaxException {
+        LocalDate now = LocalDate.now();
+        LocalDate startOfWeek = now.minusDays(now.getDayOfWeek().getValue());
+        LocalDate endOfWeek = startOfWeek.plusDays(6);
+        log.debug("Looking for points between:{} and {}", startOfWeek, endOfWeek);
+
+        List<Points> points = pointsRepository.findAllByDateBetween(startOfWeek, endOfWeek);
+
+        int numPoints = points.stream()
+            .filter(p -> p.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin()))
+            .mapToInt(p -> p.getExercise() + p.getMeals() + p.getAlcohol())
+            .sum();
+
+        PointsPerWeek count = new PointsPerWeek(startOfWeek, numPoints);
+        return new ResponseEntity<>(count, HttpStatus.OK);
     }
 
     /**

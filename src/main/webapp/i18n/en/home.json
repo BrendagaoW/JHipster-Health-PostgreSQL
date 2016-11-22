@@ -1,7 +1,7 @@
 {
     "home": {
         "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "subtitle": "21 Points is here to track your health and improve your life. :)",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },

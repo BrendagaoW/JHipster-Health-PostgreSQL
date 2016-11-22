@@ -40,6 +40,16 @@ public class Points implements Serializable {
     @ManyToOne
     private User user;
 
+    public Points() {}
+
+    public Points(LocalDate date, int exercise, int meals, int alcohol, User user) {
+        this.date = date;
+        this.exercise = exercise;
+        this.meals = meals;
+        this.alcohol = alcohol;
+        this.user = user;
+    }
+
     public Long getId() {
         return id;
     }
@@ -62,7 +72,7 @@ public class Points implements Serializable {
     }
 
     public Integer getExercise() {
-        return exercise;
+        return exercise != null ? exercise : 0;
     }
 
     public Points exercise(Integer exercise) {
@@ -75,7 +85,7 @@ public class Points implements Serializable {
     }
 
     public Integer getMeals() {
-        return meals;
+        return meals != null ? meals : 0;
     }
 
     public Points meals(Integer meals) {
@@ -88,7 +98,7 @@ public class Points implements Serializable {
     }
 
     public Integer getAlcohol() {
-        return alcohol;
+        return alcohol != null ? alcohol : 0;
     }
 
     public Points alcohol(Integer alcohol) {

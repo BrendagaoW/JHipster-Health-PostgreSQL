@@ -7,6 +7,24 @@
             <h1 data-translate="home.title">Welcome, Java Hipster!</h1>
             <p class="lead" data-translate="home.subtitle">This is your homepage</p>
 
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="text-right">
+                        <a ui-sref="points.add" class="btn btn-primary btn-raised">Add Points</a>
+                    </div>
+                    <div class="progress" style="height: 20px;" ng-show="pointsThisWeek.points">
+                        <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+                             aria-valuenow="{{pointsThisWeek.points}}"
+                             aria-valuemin="0" aria-valuemax="21" style="width: {{pointsPercentage}}%">
+                            {{pointsThisWeek.points}} / Goal : 10
+                        </div>
+                    </div>
+                    <alert type="info" ng-hide="pointsThisWeek.points">
+                        No points yet this week, better get moving!
+                    </alert>
+                </div>
+            </div>
+
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
