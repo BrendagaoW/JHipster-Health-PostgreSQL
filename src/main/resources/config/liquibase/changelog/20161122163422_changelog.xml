@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="Brenda (generated)" id="1479861299243-1">
+        <addColumn tableName="jhi_user">
+            <column name="preferences_id" type="int8"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-2">
+        <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="jhi_user" constraintName="FK_cipj0mxag1inl36996yiogsd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="preferences"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-3">
+        <dropSequence sequenceName="blood_id_seq"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-4">
+        <dropSequence sequenceName="jhi_persistent_audit_event_event_id_seq"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-5">
+        <dropSequence sequenceName="jhi_user_id_seq"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-6">
+        <dropSequence sequenceName="points_id_seq"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-7">
+        <dropSequence sequenceName="preferences_id_seq"/>
+    </changeSet>
+    <changeSet author="Brenda (generated)" id="1479861299243-8">
+        <dropSequence sequenceName="weight_id_seq"/>
+    </changeSet>
+</databaseChangeLog>
