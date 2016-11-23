@@ -3,11 +3,13 @@ package org.jhipster.health.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.jhipster.health.domain.Preferences;
 
+import org.jhipster.health.domain.User;
 import org.jhipster.health.repository.PreferencesRepository;
+import org.jhipster.health.repository.UserRepository;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +29,12 @@ import java.util.Optional;
 public class PreferencesResource {
 
     private final Logger log = LoggerFactory.getLogger(PreferencesResource.class);
-        
+
     @Inject
     private PreferencesRepository preferencesRepository;
+
+    @Inject
+    private UserRepository userRepository;
 
     /**
      * POST  /preferences : Create a new preferences.
@@ -116,6 +121,25 @@ public class PreferencesResource {
         log.debug("REST request to delete Preferences : {}", id);
         preferencesRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("preferences", id.toString())).build();
+    }
+
+    @RequestMapping("/my-preferences")
+    @Timed
+    public ResponseEntity<Preferences> getUserPreferences() {
+        String userName = SecurityUtils.getCurrentUserLogin();
+        log.debug("REST request to get user preferences : {}", userName);
+
+        User user = userRepository.findOneByLogin(userName).get();
+
+        Preferences preferences;
+        if (user.getPreferences() != null) {
+            preferences = user.getPreferences();
+        } else {
+            preferences = new Preferences();
+            preferences.setWeeklyGoal(10);
+        }
+
+        return new ResponseEntity<>(preferences, HttpStatus.OK);
     }
 
 }

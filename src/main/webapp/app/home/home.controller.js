@@ -5,9 +5,9 @@
         .module('21PointsApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Points'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Points', 'Preferences'];
 
-    function HomeController ($scope, Principal, LoginService, $state, Points) {
+    function HomeController ($scope, Principal, LoginService, $state, Points, Preferences) {
         var vm = this;
 
         vm.account = null;
@@ -29,6 +29,10 @@
             Points.thisWeek(function (data) {
                 $scope.pointsThisWeek = data;
                 $scope.pointsPercentage = (data.points / 21) * 100;
+            });
+
+            Preferences.userPreferences(function (data) {
+                $scope.preferences = data;
             })
         }
         function register () {
