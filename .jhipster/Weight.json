@@ -12,11 +12,11 @@
     "fields": [
         {
             "fieldName": "date",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "weight",
-            "fieldType": "String"
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20161114213920",

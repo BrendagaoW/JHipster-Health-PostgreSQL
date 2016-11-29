@@ -5,14 +5,14 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  * A Blood.
  */
 @Entity
-@Table(name = "blood")
+@Table(name = "blood_pressure")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Blood implements Serializable {
 
@@ -23,13 +23,13 @@ public class Blood implements Serializable {
     private Long id;
 
     @Column(name = "date")
-    private ZonedDateTime date;
+    private LocalDate date;
 
     @Column(name = "systolic")
-    private String systolic;
+    private Integer systolic;
 
     @Column(name = "diastolic")
-    private String diastolic;
+    private Integer diastolic;
 
     @ManyToOne
     private User user;
@@ -42,42 +42,42 @@ public class Blood implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public Blood date(ZonedDateTime date) {
+    public Blood date(LocalDate date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getSystolic() {
+    public Integer getSystolic() {
         return systolic;
     }
 
-    public Blood systolic(String systolic) {
+    public Blood systolic(Integer systolic) {
         this.systolic = systolic;
         return this;
     }
 
-    public void setSystolic(String systolic) {
+    public void setSystolic(Integer systolic) {
         this.systolic = systolic;
     }
 
-    public String getDiastolic() {
+    public Integer getDiastolic() {
         return diastolic;
     }
 
-    public Blood diastolic(String diastolic) {
+    public Blood diastolic(Integer diastolic) {
         this.diastolic = diastolic;
         return this;
     }
 
-    public void setDiastolic(String diastolic) {
+    public void setDiastolic(Integer diastolic) {
         this.diastolic = diastolic;
     }
 

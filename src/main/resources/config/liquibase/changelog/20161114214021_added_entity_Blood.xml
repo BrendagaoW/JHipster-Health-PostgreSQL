@@ -17,19 +17,19 @@
         Added the entity Blood.
     -->
     <changeSet id="20161114214021-1" author="jhipster">
-        <createTable tableName="blood">
+        <createTable tableName="blood_pressure">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="date" type="timestamp">
+            <column name="date" type="date">
                 <constraints nullable="true" />
             </column>
             
-            <column name="systolic" type="varchar(255)">
+            <column name="systolic" type="integer">
                 <constraints nullable="true" />
             </column>
             
-            <column name="diastolic" type="varchar(255)">
+            <column name="diastolic" type="integer">
                 <constraints nullable="true" />
             </column>
             
@@ -39,7 +39,6 @@
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="blood" columnName="date" columnDataType="datetime"/>
         
     </changeSet>
 </databaseChangeLog>

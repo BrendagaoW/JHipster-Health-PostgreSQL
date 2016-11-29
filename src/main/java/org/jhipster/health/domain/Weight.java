@@ -5,7 +5,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -23,10 +23,10 @@ public class Weight implements Serializable {
     private Long id;
 
     @Column(name = "date")
-    private ZonedDateTime date;
+    private LocalDate date;
 
     @Column(name = "weight")
-    private String weight;
+    private Integer weight;
 
     @ManyToOne
     private User user;
@@ -39,29 +39,29 @@ public class Weight implements Serializable {
         this.id = id;
     }
 
-    public ZonedDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public Weight date(ZonedDateTime date) {
+    public Weight date(LocalDate date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(ZonedDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public Weight weight(String weight) {
+    public Weight weight(Integer weight) {
         this.weight = weight;
         return this;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 

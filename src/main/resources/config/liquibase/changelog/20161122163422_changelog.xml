@@ -9,7 +9,7 @@
         <addForeignKeyConstraint baseColumnNames="preferences_id" baseTableName="jhi_user" constraintName="FK_cipj0mxag1inl36996yiogsd5" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="preferences"/>
     </changeSet>
     <changeSet author="Brenda (generated)" id="1479861299243-3">
-        <dropSequence sequenceName="blood_id_seq"/>
+        <dropSequence sequenceName="blood_pressure_id_seq"/>
     </changeSet>
     <changeSet author="Brenda (generated)" id="1479861299243-4">
         <dropSequence sequenceName="jhi_persistent_audit_event_event_id_seq"/>

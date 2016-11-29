@@ -23,9 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -42,12 +40,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Application.class)
 public class WeightResourceIntTest {
 
-    private static final ZonedDateTime DEFAULT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
-    private static final ZonedDateTime UPDATED_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
-    private static final String DEFAULT_DATE_STR = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(DEFAULT_DATE);
+    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
 
-    private static final String DEFAULT_WEIGHT = "AAAAA";
-    private static final String UPDATED_WEIGHT = "BBBBB";
+    private static final Integer DEFAULT_WEIGHT = 1;
+    private static final Integer UPDATED_WEIGHT = 2;
 
     @Inject
     private WeightRepository weightRepository;
@@ -124,8 +121,8 @@ public class WeightResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(weight.getId().intValue())))
-                .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE_STR)))
-                .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT.toString())));
+                .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
+                .andExpect(jsonPath("$.[*].weight").value(hasItem(DEFAULT_WEIGHT)));
     }
 
     @Test
@@ -139,8 +136,8 @@ public class WeightResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(weight.getId().intValue()))
-            .andExpect(jsonPath("$.date").value(DEFAULT_DATE_STR))
-            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT.toString()));
+            .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
+            .andExpect(jsonPath("$.weight").value(DEFAULT_WEIGHT));
     }
 
     @Test

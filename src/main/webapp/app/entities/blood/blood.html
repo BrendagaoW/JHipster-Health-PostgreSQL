@@ -29,7 +29,7 @@
             <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
                 <tr ng-repeat="blood in vm.blood track by blood.id">
                     <td><a ui-sref="blood-detail({id:blood.id})">{{blood.id}}</a></td>
-                    <td>{{blood.date | date:'medium'}}</td>
+                        <td>{{blood.date | date:'mediumDate'}}</td>
                     <td>{{blood.systolic}}</td>
                     <td>{{blood.diastolic}}</td>
                     <td>

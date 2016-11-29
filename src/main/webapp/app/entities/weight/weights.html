@@ -28,7 +28,7 @@
             <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
                 <tr ng-repeat="weight in vm.weights track by weight.id">
                     <td><a ui-sref="weight-detail({id:weight.id})">{{weight.id}}</a></td>
-                    <td>{{weight.date | date:'medium'}}</td>
+                        <td>{{weight.date | date:'mediumDate'}}</td>
                     <td>{{weight.weight}}</td>
                     <td>
                         {{weight.user.id}}

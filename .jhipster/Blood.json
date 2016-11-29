@@ -12,20 +12,20 @@
     "fields": [
         {
             "fieldName": "date",
-            "fieldType": "ZonedDateTime"
+            "fieldType": "LocalDate"
         },
         {
             "fieldName": "systolic",
-            "fieldType": "String"
+            "fieldType": "Integer"
         },
         {
             "fieldName": "diastolic",
-            "fieldType": "String"
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20161114214021",
     "dto": "no",
     "service": "no",
-    "entityTableName": "blood",
+    "entityTableName": "blood_pressure",
     "pagination": "infinite-scroll"
 }
