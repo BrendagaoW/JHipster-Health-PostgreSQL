@@ -1,7 +1,7 @@
 package org.jhipster.health.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import org.jhipster.health.domain.Blood;
+import org.jhipster.health.domain.BloodPressure;
 
 import org.jhipster.health.repository.BloodRepository;
 import org.jhipster.health.web.rest.util.HeaderUtil;
@@ -29,25 +29,25 @@ import java.util.Optional;
 public class BloodResource {
 
     private final Logger log = LoggerFactory.getLogger(BloodResource.class);
-        
+
     @Inject
     private BloodRepository bloodRepository;
 
     /**
      * POST  /blood : Create a new blood.
      *
-     * @param blood the blood to create
+     * @param bloodPressure the blood to create
      * @return the ResponseEntity with status 201 (Created) and with body the new blood, or with status 400 (Bad Request) if the blood has already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/blood")
     @Timed
-    public ResponseEntity<Blood> createBlood(@RequestBody Blood blood) throws URISyntaxException {
-        log.debug("REST request to save Blood : {}", blood);
-        if (blood.getId() != null) {
+    public ResponseEntity<BloodPressure> createBlood(@RequestBody BloodPressure bloodPressure) throws URISyntaxException {
+        log.debug("REST request to save Blood : {}", bloodPressure);
+        if (bloodPressure.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("blood", "idexists", "A new blood cannot already have an ID")).body(null);
         }
-        Blood result = bloodRepository.save(blood);
+        BloodPressure result = bloodRepository.save(bloodPressure);
         return ResponseEntity.created(new URI("/api/blood/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("blood", result.getId().toString()))
             .body(result);
@@ -56,7 +56,7 @@ public class BloodResource {
     /**
      * PUT  /blood : Updates an existing blood.
      *
-     * @param blood the blood to update
+     * @param bloodPressure the blood to update
      * @return the ResponseEntity with status 200 (OK) and with body the updated blood,
      * or with status 400 (Bad Request) if the blood is not valid,
      * or with status 500 (Internal Server Error) if the blood couldnt be updated
@@ -64,14 +64,14 @@ public class BloodResource {
      */
     @PutMapping("/blood")
     @Timed
-    public ResponseEntity<Blood> updateBlood(@RequestBody Blood blood) throws URISyntaxException {
-        log.debug("REST request to update Blood : {}", blood);
-        if (blood.getId() == null) {
-            return createBlood(blood);
+    public ResponseEntity<BloodPressure> updateBlood(@RequestBody BloodPressure bloodPressure) throws URISyntaxException {
+        log.debug("REST request to update Blood : {}", bloodPressure);
+        if (bloodPressure.getId() == null) {
+            return createBlood(bloodPressure);
         }
-        Blood result = bloodRepository.save(blood);
+        BloodPressure result = bloodRepository.save(bloodPressure);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("blood", blood.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("blood", bloodPressure.getId().toString()))
             .body(result);
     }
 
@@ -84,10 +84,10 @@ public class BloodResource {
      */
     @GetMapping("/blood")
     @Timed
-    public ResponseEntity<List<Blood>> getAllBlood(Pageable pageable)
+    public ResponseEntity<List<BloodPressure>> getAllBlood(Pageable pageable)
         throws URISyntaxException {
         log.debug("REST request to get a page of Blood");
-        Page<Blood> page = bloodRepository.findAll(pageable);
+        Page<BloodPressure> page = bloodRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/blood");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -100,10 +100,10 @@ public class BloodResource {
      */
     @GetMapping("/blood/{id}")
     @Timed
-    public ResponseEntity<Blood> getBlood(@PathVariable Long id) {
+    public ResponseEntity<BloodPressure> getBlood(@PathVariable Long id) {
         log.debug("REST request to get Blood : {}", id);
-        Blood blood = bloodRepository.findOne(id);
-        return Optional.ofNullable(blood)
+        BloodPressure bloodPressure = bloodRepository.findOne(id);
+        return Optional.ofNullable(bloodPressure)
             .map(result -> new ResponseEntity<>(
                 result,
                 HttpStatus.OK))

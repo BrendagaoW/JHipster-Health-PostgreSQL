@@ -14,7 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "blood_pressure")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Blood implements Serializable {
+public class BloodPressure implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public class Blood implements Serializable {
         return date;
     }
 
-    public Blood date(LocalDate date) {
+    public BloodPressure date(LocalDate date) {
         this.date = date;
         return this;
     }
@@ -59,7 +59,7 @@ public class Blood implements Serializable {
         return systolic;
     }
 
-    public Blood systolic(Integer systolic) {
+    public BloodPressure systolic(Integer systolic) {
         this.systolic = systolic;
         return this;
     }
@@ -72,7 +72,7 @@ public class Blood implements Serializable {
         return diastolic;
     }
 
-    public Blood diastolic(Integer diastolic) {
+    public BloodPressure diastolic(Integer diastolic) {
         this.diastolic = diastolic;
         return this;
     }
@@ -85,7 +85,7 @@ public class Blood implements Serializable {
         return user;
     }
 
-    public Blood user(User user) {
+    public BloodPressure user(User user) {
         this.user = user;
         return this;
     }
@@ -102,11 +102,11 @@ public class Blood implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Blood blood = (Blood) o;
-        if(blood.id == null || id == null) {
+        BloodPressure bloodPressure = (BloodPressure) o;
+        if(bloodPressure.id == null || id == null) {
             return false;
         }
-        return Objects.equals(id, blood.id);
+        return Objects.equals(id, bloodPressure.id);
     }
 
     @Override

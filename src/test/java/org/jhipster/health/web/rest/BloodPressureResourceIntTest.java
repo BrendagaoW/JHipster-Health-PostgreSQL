@@ -2,7 +2,7 @@ package org.jhipster.health.web.rest;
 
 import org.jhipster.health.Application;
 
-import org.jhipster.health.domain.Blood;
+import org.jhipster.health.domain.BloodPressure;
 import org.jhipster.health.repository.BloodRepository;
 
 import org.junit.Before;
@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class BloodResourceIntTest {
+public class BloodPressureResourceIntTest {
 
     private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -63,7 +63,7 @@ public class BloodResourceIntTest {
 
     private MockMvc restBloodMockMvc;
 
-    private Blood blood;
+    private BloodPressure bloodPressure;
 
     @PostConstruct
     public void setup() {
@@ -81,17 +81,17 @@ public class BloodResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Blood createEntity(EntityManager em) {
-        Blood blood = new Blood()
+    public static BloodPressure createEntity(EntityManager em) {
+        BloodPressure bloodPressure = new BloodPressure()
                 .date(DEFAULT_DATE)
                 .systolic(DEFAULT_SYSTOLIC)
                 .diastolic(DEFAULT_DIASTOLIC);
-        return blood;
+        return bloodPressure;
     }
 
     @Before
     public void initTest() {
-        blood = createEntity(em);
+        bloodPressure = createEntity(em);
     }
 
     @Test
@@ -103,29 +103,29 @@ public class BloodResourceIntTest {
 
         restBloodMockMvc.perform(post("/api/blood")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(blood)))
+                .content(TestUtil.convertObjectToJsonBytes(this.bloodPressure)))
                 .andExpect(status().isCreated());
 
         // Validate the Blood in the database
-        List<Blood> blood = bloodRepository.findAll();
-        assertThat(blood).hasSize(databaseSizeBeforeCreate + 1);
-        Blood testBlood = blood.get(blood.size() - 1);
-        assertThat(testBlood.getDate()).isEqualTo(DEFAULT_DATE);
-        assertThat(testBlood.getSystolic()).isEqualTo(DEFAULT_SYSTOLIC);
-        assertThat(testBlood.getDiastolic()).isEqualTo(DEFAULT_DIASTOLIC);
+        List<BloodPressure> bloodPressure = bloodRepository.findAll();
+        assertThat(bloodPressure).hasSize(databaseSizeBeforeCreate + 1);
+        BloodPressure testBloodPressure = bloodPressure.get(bloodPressure.size() - 1);
+        assertThat(testBloodPressure.getDate()).isEqualTo(DEFAULT_DATE);
+        assertThat(testBloodPressure.getSystolic()).isEqualTo(DEFAULT_SYSTOLIC);
+        assertThat(testBloodPressure.getDiastolic()).isEqualTo(DEFAULT_DIASTOLIC);
     }
 
     @Test
     @Transactional
     public void getAllBlood() throws Exception {
         // Initialize the database
-        bloodRepository.saveAndFlush(blood);
+        bloodRepository.saveAndFlush(bloodPressure);
 
         // Get all the blood
         restBloodMockMvc.perform(get("/api/blood?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(blood.getId().intValue())))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(bloodPressure.getId().intValue())))
                 .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
                 .andExpect(jsonPath("$.[*].systolic").value(hasItem(DEFAULT_SYSTOLIC)))
                 .andExpect(jsonPath("$.[*].diastolic").value(hasItem(DEFAULT_DIASTOLIC)));
@@ -135,13 +135,13 @@ public class BloodResourceIntTest {
     @Transactional
     public void getBlood() throws Exception {
         // Initialize the database
-        bloodRepository.saveAndFlush(blood);
+        bloodRepository.saveAndFlush(bloodPressure);
 
         // Get the blood
-        restBloodMockMvc.perform(get("/api/blood/{id}", blood.getId()))
+        restBloodMockMvc.perform(get("/api/blood/{id}", bloodPressure.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(blood.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(bloodPressure.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.systolic").value(DEFAULT_SYSTOLIC))
             .andExpect(jsonPath("$.diastolic").value(DEFAULT_DIASTOLIC));
@@ -159,44 +159,44 @@ public class BloodResourceIntTest {
     @Transactional
     public void updateBlood() throws Exception {
         // Initialize the database
-        bloodRepository.saveAndFlush(blood);
+        bloodRepository.saveAndFlush(this.bloodPressure);
         int databaseSizeBeforeUpdate = bloodRepository.findAll().size();
 
         // Update the blood
-        Blood updatedBlood = bloodRepository.findOne(blood.getId());
-        updatedBlood
+        BloodPressure updatedBloodPressure = bloodRepository.findOne(this.bloodPressure.getId());
+        updatedBloodPressure
                 .date(UPDATED_DATE)
                 .systolic(UPDATED_SYSTOLIC)
                 .diastolic(UPDATED_DIASTOLIC);
 
         restBloodMockMvc.perform(put("/api/blood")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
-                .content(TestUtil.convertObjectToJsonBytes(updatedBlood)))
+                .content(TestUtil.convertObjectToJsonBytes(updatedBloodPressure)))
                 .andExpect(status().isOk());
 
         // Validate the Blood in the database
-        List<Blood> blood = bloodRepository.findAll();
-        assertThat(blood).hasSize(databaseSizeBeforeUpdate);
-        Blood testBlood = blood.get(blood.size() - 1);
-        assertThat(testBlood.getDate()).isEqualTo(UPDATED_DATE);
-        assertThat(testBlood.getSystolic()).isEqualTo(UPDATED_SYSTOLIC);
-        assertThat(testBlood.getDiastolic()).isEqualTo(UPDATED_DIASTOLIC);
+        List<BloodPressure> bloodPressure = bloodRepository.findAll();
+        assertThat(bloodPressure).hasSize(databaseSizeBeforeUpdate);
+        BloodPressure testBloodPressure = bloodPressure.get(bloodPressure.size() - 1);
+        assertThat(testBloodPressure.getDate()).isEqualTo(UPDATED_DATE);
+        assertThat(testBloodPressure.getSystolic()).isEqualTo(UPDATED_SYSTOLIC);
+        assertThat(testBloodPressure.getDiastolic()).isEqualTo(UPDATED_DIASTOLIC);
     }
 
     @Test
     @Transactional
     public void deleteBlood() throws Exception {
         // Initialize the database
-        bloodRepository.saveAndFlush(blood);
+        bloodRepository.saveAndFlush(this.bloodPressure);
         int databaseSizeBeforeDelete = bloodRepository.findAll().size();
 
         // Get the blood
-        restBloodMockMvc.perform(delete("/api/blood/{id}", blood.getId())
+        restBloodMockMvc.perform(delete("/api/blood/{id}", this.bloodPressure.getId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 
         // Validate the database is empty
-        List<Blood> blood = bloodRepository.findAll();
-        assertThat(blood).hasSize(databaseSizeBeforeDelete - 1);
+        List<BloodPressure> bloodPressure = bloodRepository.findAll();
+        assertThat(bloodPressure).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

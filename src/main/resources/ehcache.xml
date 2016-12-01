@@ -36,7 +36,7 @@
     <cache name="org.jhipster.health.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
     <cache name="org.jhipster.health.domain.Points"
         timeToLiveSeconds="3600">
     </cache>
@@ -45,7 +45,7 @@
         timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="org.jhipster.health.domain.Blood"
+    <cache name="org.jhipster.health.domain.BloodPressure"
         timeToLiveSeconds="3600">
     </cache>
 
