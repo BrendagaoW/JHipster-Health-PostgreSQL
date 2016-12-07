@@ -3,7 +3,9 @@ package org.jhipster.health.repository;
 import org.jhipster.health.domain.BloodPressure;
 
 import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -21,4 +23,6 @@ public interface BloodRepository extends JpaRepository<BloodPressure,Long> {
     @Query("select blood from BloodPressure blood where blood.user.login = ?#{principal.username}")
     List<BloodPressure> findByUserIsCurrentUser();
 
+    @Query("select blood from BloodPressure blood where blood.date > :first_date and blood.date <= :second_date order by blood.date DESC")
+    List<BloodPressure> findAllBetweenOrderByTimestampDesc(@Param("first_date") LocalDate firstDate, @Param("second_date") LocalDate secondDate);
 }

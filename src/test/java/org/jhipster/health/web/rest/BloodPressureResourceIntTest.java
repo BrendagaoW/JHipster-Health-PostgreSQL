@@ -3,13 +3,16 @@ package org.jhipster.health.web.rest;
 import org.jhipster.health.Application;
 
 import org.jhipster.health.domain.BloodPressure;
+import org.jhipster.health.domain.User;
 import org.jhipster.health.repository.BloodRepository;
 
+import org.jhipster.health.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,6 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -28,6 +32,9 @@ import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -53,6 +60,9 @@ public class BloodPressureResourceIntTest {
     private BloodRepository bloodRepository;
 
     @Inject
+    private UserRepository userRepository;
+
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -62,6 +72,9 @@ public class BloodPressureResourceIntTest {
     private EntityManager em;
 
     private MockMvc restBloodMockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
 
     private BloodPressure bloodPressure;
 
@@ -199,4 +212,56 @@ public class BloodPressureResourceIntTest {
         List<BloodPressure> bloodPressure = bloodRepository.findAll();
         assertThat(bloodPressure).hasSize(databaseSizeBeforeDelete - 1);
     }
+
+    @Test
+    @Transactional
+    public void getBloodPressureForLast30Days() throws Exception {
+        LocalDate now = LocalDate.now();
+        LocalDate firstOfMonth = now.withDayOfMonth(1);
+        LocalDate firstDayOfLastMonth = firstOfMonth.minusMonths(1);
+        createBloodPressureByMonth(firstOfMonth, firstDayOfLastMonth);
+
+        // create security-aware mockMvc
+        restBloodMockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .apply(springSecurity())
+            .build();
+
+        // Get all the blood pressure readings
+        restBloodMockMvc.perform(get("/api/blood")
+            .with(user("user").roles("USER")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$", hasSize(6)));
+
+        // Get the blood pressure readings for the last 30 days
+        restBloodMockMvc.perform(get("/api/bp-by-days/{days}", 30)
+            .with(user("user").roles("USER")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.period").value("Last 30 Days"))
+            .andExpect(jsonPath("$.readings.[*].systolic").value(hasItem(120)))
+            .andExpect(jsonPath("$.readings.[*].diastolic").value(hasItem(85)));
+    }
+
+    private void createBloodPressureByMonth(LocalDate firstOfMonth, LocalDate firstDayOfLastMonth) {
+        User user = userRepository.findOneByLogin("user").get();
+
+        // this month
+        bloodPressure = new BloodPressure(firstOfMonth, 120, 80, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure(firstOfMonth.plusDays(10), 125, 75, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure(firstOfMonth.plusDays(20), 100, 69, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+
+        // last month
+        bloodPressure = new BloodPressure(firstDayOfLastMonth, 130, 90, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(11), 135, 85, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+        bloodPressure = new BloodPressure(firstDayOfLastMonth.plusDays(23), 130, 75, user);
+        bloodRepository.saveAndFlush(bloodPressure);
+    }
+
 }

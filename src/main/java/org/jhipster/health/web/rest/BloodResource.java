@@ -2,8 +2,10 @@ package org.jhipster.health.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.jhipster.health.domain.BloodPressure;
+import org.jhipster.health.domain.BloodPressureByPeriod;
 
 import org.jhipster.health.repository.BloodRepository;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.util.HeaderUtil;
 import org.jhipster.health.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * REST controller for managing Blood.
@@ -122,6 +127,24 @@ public class BloodResource {
         log.debug("REST request to delete Blood : {}", id);
         bloodRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("blood", id.toString())).build();
+    }
+
+    @RequestMapping(value = "/bp-by-days/{days}")
+    @Timed
+    public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
+        log.debug("REST request to get period Blood Pressures: {}", days);
+        LocalDate today = LocalDate.now();
+        LocalDate previousDate = today.minusDays(days);
+        List<BloodPressure> readings = bloodRepository
+            .findAllBetweenOrderByTimestampDesc(previousDate, today);
+        BloodPressureByPeriod response = new BloodPressureByPeriod("Last " + days + " Days",
+            filterByUser(readings));
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    private List<BloodPressure> filterByUser(List<BloodPressure> readings) {
+        Stream<BloodPressure> userReadings = readings.stream()
+            .filter(bp -> bp.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin()));
+        return userReadings.collect(Collectors.toList());
     }
 
 }

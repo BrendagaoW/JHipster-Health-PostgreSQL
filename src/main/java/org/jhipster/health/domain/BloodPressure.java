@@ -34,6 +34,17 @@ public class BloodPressure implements Serializable {
     @ManyToOne
     private User user;
 
+    public BloodPressure(LocalDate date, Integer systolic, Integer diastolic, User user) {
+        this.date = date;
+        this.systolic = systolic;
+        this.diastolic = diastolic;
+        this.user = user;
+    }
+
+    public BloodPressure() {
+
+    }
+
     public Long getId() {
         return id;
     }
