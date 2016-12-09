@@ -43,6 +43,10 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('points');
+                                return $translate.refresh();
+                            }],
                             entity: function () {
                                 return {
                                     date: null,
@@ -75,6 +79,10 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('blood');
+                                return $translate.refresh();
+                            }],
                             entity: function () {
                                 return {
                                     date: null,
@@ -105,6 +113,10 @@
                         backdrop: 'static',
                         size: 'lg',
                         resolve: {
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('weight');
+                                return $translate.refresh();
+                            }],
                             entity: function () {
                                 return {
                                     date: null,
