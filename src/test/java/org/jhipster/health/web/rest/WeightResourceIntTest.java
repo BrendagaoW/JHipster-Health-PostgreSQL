@@ -2,7 +2,9 @@ package org.jhipster.health.web.rest;
 
 import org.jhipster.health.Application;
 
+import org.jhipster.health.domain.User;
 import org.jhipster.health.domain.Weight;
+import org.jhipster.health.repository.UserRepository;
 import org.jhipster.health.repository.WeightRepository;
 
 import org.junit.Before;
@@ -10,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -19,6 +22,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -28,6 +32,9 @@ import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -50,6 +57,9 @@ public class WeightResourceIntTest {
     private WeightRepository weightRepository;
 
     @Inject
+    private UserRepository userRepository;
+
+    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Inject
@@ -59,6 +69,9 @@ public class WeightResourceIntTest {
     private EntityManager em;
 
     private MockMvc restWeightMockMvc;
+
+    @Autowired
+    private WebApplicationContext context;
 
     private Weight weight;
 
@@ -189,5 +202,55 @@ public class WeightResourceIntTest {
         // Validate the database is empty
         List<Weight> weights = weightRepository.findAll();
         assertThat(weights).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void getWeightForLast30Days() throws Exception {
+        LocalDate now = LocalDate.now();
+        LocalDate firstOfMonth = now.withDayOfMonth(1);
+        LocalDate firstDayOfLastMonth = firstOfMonth.minusMonths(1);
+        createWeightByMonth(firstOfMonth, firstDayOfLastMonth);
+
+        // create security-aware mockMvc
+        restWeightMockMvc = MockMvcBuilders
+            .webAppContextSetup(context)
+            .apply(springSecurity())
+            .build();
+
+        // Get all the weight readings
+        restWeightMockMvc.perform(get("/api/weights")
+            .with(user("user").roles("USER")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$", hasSize(6)));
+
+        // Get the weight readings for the last 30 days
+        restWeightMockMvc.perform(get("/api/weights/bp-by-days/{days}", 30)
+            .with(user("user").roles("USER")))
+            .andExpect(status().isOk())
+            .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+            .andExpect(jsonPath("$.period").value("Last 30 Days"))
+            .andExpect(jsonPath("$.readings.[*].weight").value(hasItem(85)));
+    }
+
+    private void createWeightByMonth(LocalDate firstOfMonth, LocalDate firstDayOfLastMonth) {
+        User user = userRepository.findOneByLogin("user").get();
+
+        // this month
+        weight = new Weight(firstOfMonth, 120, user);
+        weightRepository.saveAndFlush(weight);
+        weight = new Weight(firstOfMonth.plusDays(10), 125, user);
+        weightRepository.saveAndFlush(weight);
+        weight = new Weight(firstOfMonth.plusDays(20), 69, user);
+        weightRepository.saveAndFlush(weight);
+
+        // last month
+        weight = new Weight(firstDayOfLastMonth, 90, user);
+        weightRepository.saveAndFlush(weight);
+        weight = new Weight(firstDayOfLastMonth.plusDays(11), 85, user);
+        weightRepository.saveAndFlush(weight);
+        weight = new Weight(firstDayOfLastMonth.plusDays(23), 75, user);
+        weightRepository.saveAndFlush(weight);
     }
 }

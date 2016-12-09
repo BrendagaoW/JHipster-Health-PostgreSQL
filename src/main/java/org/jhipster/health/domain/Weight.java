@@ -31,6 +31,16 @@ public class Weight implements Serializable {
     @ManyToOne
     private User user;
 
+    public Weight(LocalDate date, Integer weight, User user) {
+        this.date = date;
+        this.weight = weight;
+        this.user = user;
+    }
+
+    public Weight() {
+
+    }
+
     public Long getId() {
         return id;
     }

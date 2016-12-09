@@ -3,7 +3,9 @@ package org.jhipster.health.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import org.jhipster.health.domain.Weight;
 
+import org.jhipster.health.domain.WeightByPeriod;
 import org.jhipster.health.repository.WeightRepository;
+import org.jhipster.health.security.SecurityUtils;
 import org.jhipster.health.web.rest.util.HeaderUtil;
 import org.jhipster.health.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
@@ -18,8 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * REST controller for managing Weight.
@@ -29,7 +34,7 @@ import java.util.Optional;
 public class WeightResource {
 
     private final Logger log = LoggerFactory.getLogger(WeightResource.class);
-        
+
     @Inject
     private WeightRepository weightRepository;
 
@@ -122,6 +127,23 @@ public class WeightResource {
         log.debug("REST request to delete Weight : {}", id);
         weightRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("weight", id.toString())).build();
+    }
+
+    @RequestMapping(value = "/weights/bp-by-days/{days}")
+    @Timed
+    public ResponseEntity<WeightByPeriod> getByDays(@PathVariable int days) {
+        log.debug("REST request to get period Weight: {}", days);
+        LocalDate today = LocalDate.now();
+        LocalDate previousDate = today.minusDays(days);
+        List<Weight> readings = weightRepository
+            .findAllBetweenOrderByTimestampDesc(previousDate, today);
+
+        Stream<Weight> result = readings.stream()
+            .filter(weight -> weight.getUser().getLogin().equals(SecurityUtils.getCurrentUserLogin()));
+
+        WeightByPeriod response = new WeightByPeriod("Last " + days + " Days", result.collect(Collectors.toList()));
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

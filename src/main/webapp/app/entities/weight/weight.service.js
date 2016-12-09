@@ -36,6 +36,11 @@
                     copy.date = DateUtils.convertLocalDateToServer(copy.date);
                     return angular.toJson(copy);
                 }
+            },
+            'last30Days': {
+                method: 'GET',
+                isArray: false,
+                url: 'api/weights/bp-by-days/30'
             }
         });
     }

@@ -3,7 +3,7 @@ angular
     .module('21PointsApp')
     .factory('Chart', function Chart() {
     return {
-        getBpChartConfig: function() {
+        getChartConfig: function() {
             return bpChartConfig;
         }
     } });
@@ -19,7 +19,7 @@ var bpChartConfig = {
             top: 20,
             right: 20,
             bottom: 40,
-            left: 55
+            left: 70
         },
         x: function(d){ return d.x; },
         y: function(d){ return d.y; },
@@ -35,7 +35,7 @@ var bpChartConfig = {
         xDomain: [priorDate, today],
         yAxis: {
             axisLabel: "",
-            axisLabelDistance: 30
+            // axisLabelDistance: 30
         },
         transitionDuration: 250
     },

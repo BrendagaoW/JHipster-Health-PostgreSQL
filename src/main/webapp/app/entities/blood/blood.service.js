@@ -40,7 +40,7 @@
             'last30Days': {
                 method: 'GET',
                 isArray: false,
-                url: 'api/bp-by-days/30'
+                url: 'api/blood/bp-by-days/30'
             }
         });
     }

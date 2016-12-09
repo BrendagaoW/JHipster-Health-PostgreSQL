@@ -5,9 +5,9 @@
         .module('21PointsApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Points', 'Preferences', 'Blood', 'Chart'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'Points', 'Preferences', 'Blood', 'Chart', 'Weight'];
 
-    function HomeController ($scope, Principal, LoginService, $state, Points, Preferences, Blood, Chart) {
+    function HomeController ($scope, Principal, LoginService, $state, Points, Preferences, Blood, Chart, Weight) {
         var vm = this;
 
         vm.account = null;
@@ -35,10 +35,44 @@
                 $scope.preferences = data;
             });
 
+            configBloodChart();
+
+            configWeightChart();
+
+            $scope.todayDate = new Date();
+        }
+        function register () {
+            $state.go('register');
+        }
+
+        function configWeightChart() {
+            Weight.last30Days(function(weightReadings) {
+                $scope.weightReadings = weightReadings;
+                if (weightReadings.readings.length) {
+                    $scope.weightOptions = angular.copy(Chart.getChartConfig());
+                    $scope.weightOptions.title.text = weightReadings.period;
+                    $scope.weightOptions.chart.yAxis.axisLabel = "Weight";
+                    $scope.weightOptions.chart.type = "scatterChart";
+                    var weights = [];
+                    weightReadings.readings.forEach(function (item) {
+                        weights.push({
+                            x: new Date(item.date),
+                            y: item.weight
+                        });
+                    });
+                    $scope.weightData = [{
+                        values: weights,
+                        key: 'Weight',
+                        color: 'darkviolet'
+                    }]; }
+            });
+        }
+
+        function configBloodChart() {
             Blood.last30Days(function(bpReadings) {
                 $scope.bpReadings = bpReadings;
                 if (bpReadings.readings.length) {
-                    $scope.bpOptions = angular.copy(Chart.getBpChartConfig());
+                    $scope.bpOptions = angular.copy(Chart.getChartConfig());
                     $scope.bpOptions.title.text = bpReadings.period;
                     $scope.bpOptions.chart.yAxis.axisLabel = "Blood Pressure";
                     var systolics, diastolics;
@@ -64,11 +98,6 @@
                         color: '#03a9f4'
                     }]; }
             });
-
-            $scope.todayDate = new Date();
-        }
-        function register () {
-            $state.go('register');
         }
     }
 })();

@@ -129,7 +129,7 @@ public class BloodResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("blood", id.toString())).build();
     }
 
-    @RequestMapping(value = "/bp-by-days/{days}")
+    @RequestMapping(value = "/blood/bp-by-days/{days}")
     @Timed
     public ResponseEntity<BloodPressureByPeriod> getByDays(@PathVariable int days) {
         log.debug("REST request to get period Blood Pressures: {}", days);

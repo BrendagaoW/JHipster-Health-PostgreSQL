@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -30,67 +30,96 @@
                 }
             })
             .state('points.add', {
-            parent: 'points',
-            url: '/add',
-            data: {
-                authorities: ['ROLE_USER', 'ROLE_ADMIN']
-            },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
-                    templateUrl: 'app/entities/points/points-dialog.html',
-                    controller: 'PointsDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                date: null,
-                                exercise: null,
-                                meals: null,
-                                alcohol: null,
-                                notes: null,
-                                id: null
-                            };
+                parent: 'home',
+                url: '/points/add',
+                data: {
+                    authorities: ['ROLE_USER', 'ROLE_ADMIN']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/points/points-dialog.html',
+                        controller: 'PointsDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    date: null,
+                                    exercise: null,
+                                    meals: null,
+                                    alcohol: null,
+                                    notes: null,
+                                    id: null
+                                };
+                            }
                         }
-                    }
-                }).result.then(function() {
-                    $state.go('home', null, { reload: true });
-                }, function() {
-                    $state.go('home');
-                });
-            }]
-        })
+                    }).result.then(function () {
+                        $state.go('home', null, {reload: true});
+                    }, function () {
+                        $state.go('home');
+                    });
+                }]
+            })
             .state('blood.add', {
-            parent: 'blood',
-            url: '/add',
-            data: {
-                authorities: ['ROLE_USER']
-            },
-            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
-                $uibModal.open({
-                    templateUrl: 'app/entities/blood/blood-dialog.html',
-                    controller: 'BloodDialogController',
-                    controllerAs: 'vm',
-                    backdrop: 'static',
-                    size: 'lg',
-                    resolve: {
-                        entity: function () {
-                            return {
-                                date: null,
-                                systolic: null,
-                                diastolic: null,
-                                id: null
-                            };
+                parent: 'home',
+                url: '/blood/add',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/blood/blood-dialog.html',
+                        controller: 'BloodDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    date: null,
+                                    systolic: null,
+                                    diastolic: null,
+                                    id: null
+                                };
+                            }
                         }
-                    }
-                }).result.then(function() {
-                    $state.go('home', null, { reload: true });
-                }, function() {
-                    $state.go('home');
-                });
-            }]
-        })
+                    }).result.then(function () {
+                        $state.go('home', null, {reload: true});
+                    }, function () {
+                        $state.go('home');
+                    });
+                }]
+            })
+            .state('weight.add', {
+                parent: 'home',
+                url: '/weight/add',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/weight/weight-dialog.html',
+                        controller: 'WeightDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: function () {
+                                return {
+                                    date: null,
+                                    weight: null,
+                                    id: null
+                                };
+                            }
+                        }
+                    }).result.then(function () {
+                        $state.go('home', null, {reload: true});
+                    }, function () {
+                        $state.go('home');
+                    });
+                }]
+            })
         ;
     }
 })();

@@ -235,7 +235,7 @@ public class BloodPressureResourceIntTest {
             .andExpect(jsonPath("$", hasSize(6)));
 
         // Get the blood pressure readings for the last 30 days
-        restBloodMockMvc.perform(get("/api/bp-by-days/{days}", 30)
+        restBloodMockMvc.perform(get("/api/blood/bp-by-days/{days}", 30)
             .with(user("user").roles("USER")))
             .andExpect(status().isOk())
             .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))

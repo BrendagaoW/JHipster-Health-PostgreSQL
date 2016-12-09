@@ -60,6 +60,27 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-10">
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <p>Weight:</p>
+                        </div>
+                        <div class="col-md-5 text-right">
+                            <a ui-sref="weight.add" class="btn btn-primary btn-raised">Add Weight</a>
+                        </div>
+                    </div>
+
+                    <span ng-if="weightReadings.readings.length">
+                        <nvd3 options="weightOptions" data="weightData" class="with-3d-shadow with-transitions"></nvd3>
+                    </span>
+                    <span ng-if="!weightReadings.readings.length">
+                        <alert type="info">No weight readings found.</alert>
+                    </span>
+                </div>
+            </div>
+
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
