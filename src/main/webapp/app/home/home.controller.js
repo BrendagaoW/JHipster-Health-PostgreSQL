@@ -64,6 +64,8 @@
                         color: '#03a9f4'
                     }]; }
             });
+
+            $scope.todayDate = new Date();
         }
         function register () {
             $state.go('register');
