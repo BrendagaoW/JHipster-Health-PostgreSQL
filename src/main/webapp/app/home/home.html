@@ -30,6 +30,17 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-10">
+                    <span ng-if="bpReadings.readings.length">
+                        <nvd3 options="bpOptions" data="bpData" class="with-3d-shadow with-transitions"></nvd3>
+                    </span>
+                    <span ng-if="!bpReadings.readings.length">
+                        <alert type="info">No blood pressure readings found.</alert>
+                    </span>
+                </div>
+            </div>
+
             <div ng-switch="vm.isAuthenticated()">
                 <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
                     You are logged in as user "{{vm.account.login}}".
